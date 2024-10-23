@@ -1,5 +1,5 @@
 # MentAI Chatbot
-### Mental health care assistance chatbot
+### Mental healthcare assistance chatbot
 
 MentAI is a React-based chatbot application that aims to provide emotional support, personalized recommendations, and mood tracking features. It uses natural language processing and machine learning algorithms to understand and respond to user inputs.
 
@@ -11,6 +11,7 @@ MentAI is a React-based chatbot application that aims to provide emotional suppo
 - Daily quotes and inspirational messages
 - Calming musics for meditatation
 - Responsive design for mobile and desktop
+- Privacy Friendly (No sign up required ) : No collection any personal data to use this application
 
 ## Installation
 
