@@ -3,3 +3,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.quote-container {
+  position: relative;
+  height: 3em; /* Adjust based on your text size */
+  overflow: hidden;
+}
+
+.quote-container p {
+  position: absolute;
+  width: 100%;
+  transition: transform 0.5s ease;
+}
+
+.quote-container.sliding p:first-child {
+  transform: translateY(-100%);
+}
+
+.quote-container.sliding p:last-child {
+  transform: translateY(0);
+}
+
+.quote-container p:first-child {
+  top: 0;
+}
+
+.quote-container p:last-child {
+  top: 100%;
+}
+
+.transition-opacity {
+  transition: opacity 1s ease-in-out;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.font {
+  background: white;
+  padding: 1rem;
+  border-radius: 13px;
+}

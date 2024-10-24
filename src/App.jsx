@@ -6,6 +6,7 @@ import { MdVolumeUp } from "react-icons/md";
 import Markdown from 'react-markdown';
 import { IoMdSend } from "react-icons/io";
 import MusicList from './components/MusicList';
+import DailyQuote from './components/DailyQuote';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
       try {
         const response = await axios.get("https://api.quotable.io/random");
         setDailyQuote(response.data.content);
+        console.log(response.data.content);
         return;
       } catch (error) {
         console.error(`Attempt ${i + 1} failed:`, error);
@@ -58,8 +60,17 @@ function App() {
   }, []);
   
   const submitMood = (selectedMood) => {
-    const newMoodEntry = { date: new Date(), mood: selectedMood };
-    setMoodHistory([...moodHistory, newMoodEntry]);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to start of day for accurate comparison
+
+    const updatedMoodHistory = moodHistory.filter(entry => {
+      const entryDate = new Date(entry.date);
+      entryDate.setHours(0, 0, 0, 0);
+      return entryDate.getTime() !== today.getTime();
+    });
+
+    const newMoodEntry = { date: today, mood: selectedMood };
+    setMoodHistory([...updatedMoodHistory, newMoodEntry]);
     setShowMoodTracker(false);
   };
   
@@ -68,8 +79,13 @@ function App() {
   const generateWeeklyReport = () => {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    oneWeekAgo.setHours(0, 0, 0, 0); // Set to start of day
     
-    const weeklyMoods = moodHistory.filter(entry => new Date(entry.date) >= oneWeekAgo);
+    const weeklyMoods = moodHistory.filter(entry => {
+      const entryDate = new Date(entry.date);
+      entryDate.setHours(0, 0, 0, 0);
+      return entryDate >= oneWeekAgo;
+    });
     
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
@@ -129,6 +145,7 @@ function App() {
       <div className="bg-gradient-to-r from-orange-200 via-yellow-100 to-pink-200 min-h-screen w-full overflow-x-hidden flex flex-col">
         <Navbar />
         <Header />
+        <DailyQuote />
         <div className="ml-6 md:ml-16 rounded-full">
         {showDailyQuote && (
   <div className="fixed top-4 right-4 bg-white p-4 md:mr-10 rounded-full shadow-md max-w-md">
@@ -136,11 +153,6 @@ function App() {
     <p>{dailyQuote}</p>
   </div>
 )}
-        <button 
-         onClick={() => setShowQuotePopup(true)}
-         className="mb-2 mr-2 rounded-full bg-gradient-to-r from-pink-500 to-orange-400 text-white px-4 py-2">
-         Daily Quote
-        </button>
 
         <button 
   onClick={() => setShowMoodTracker(true)}

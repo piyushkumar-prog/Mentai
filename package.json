@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@huggingface/inference": "^2.8.0",
     "axios": "^1.7.7",
     "http-proxy-middleware": "^3.0.3",
+    "mentai": "file:",
     "react": "^18.3.1",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.3.1",
