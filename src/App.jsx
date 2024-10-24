@@ -75,7 +75,6 @@ function App() {
   };
   
   
-  
   const generateWeeklyReport = () => {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
@@ -94,6 +93,7 @@ function App() {
       return { day, mood: moodForDay ? moodForDay.mood : null };
     });
   };
+
   
   const speakMessage = (text) => {
     const cleanText = text.replace(/[^a-zA-Z0-9 .,?!]/g, '');
