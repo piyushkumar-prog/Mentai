@@ -58,18 +58,31 @@ function App() {
   }, []);
   
   const submitMood = (selectedMood) => {
-    const newMoodEntry = { date: new Date(), mood: selectedMood };
-    setMoodHistory([...moodHistory, newMoodEntry]);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to start of day for accurate comparison
+
+    const updatedMoodHistory = moodHistory.filter(entry => {
+      const entryDate = new Date(entry.date);
+      entryDate.setHours(0, 0, 0, 0);
+      return entryDate.getTime() !== today.getTime();
+    });
+
+    const newMoodEntry = { date: today, mood: selectedMood };
+    setMoodHistory([...updatedMoodHistory, newMoodEntry]);
     setShowMoodTracker(false);
   };
-  
   
   
   const generateWeeklyReport = () => {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    oneWeekAgo.setHours(0, 0, 0, 0); // Set to start of day
     
-    const weeklyMoods = moodHistory.filter(entry => new Date(entry.date) >= oneWeekAgo);
+    const weeklyMoods = moodHistory.filter(entry => {
+      const entryDate = new Date(entry.date);
+      entryDate.setHours(0, 0, 0, 0);
+      return entryDate >= oneWeekAgo;
+    });
     
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
@@ -78,6 +91,7 @@ function App() {
       return { day, mood: moodForDay ? moodForDay.mood : null };
     });
   };
+
   
   const speakMessage = (text) => {
     const cleanText = text.replace(/[^a-zA-Z0-9 .,?!]/g, '');
